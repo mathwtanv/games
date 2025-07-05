@@ -87,11 +87,16 @@ function drawBoard() {
     }
 
     if (boardWinners[i]) {
-      const overlay = document.createElement("div");
-      overlay.className = "sub-board-winner";
-      overlay.textContent = boardWinners[i];
-      subBoard.appendChild(overlay);
-    }
+  const overlay = document.createElement("div");
+  overlay.className = "sub-board-winner";
+  overlay.textContent = boardWinners[i];
+  subBoard.appendChild(overlay);
+
+  // Dim all small Xs and Os if sub-board is won
+  for (let cellEl of subBoard.querySelectorAll(".cell")) {
+    cellEl.style.opacity = "0.3";
+  }
+}
 
     board.appendChild(subBoard);
   }
