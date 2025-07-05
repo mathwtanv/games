@@ -12,6 +12,7 @@ let gameMode = "2p";
 let activeBoard = -1;
 let gameState = Array(9).fill().map(() => Array(9).fill(null));
 let boardWinners = Array(9).fill(null);
+let humanPlaysAs = "X"; // User preference
 let aiPlaysAs = "O";
 
 // ==== Event Listeners ====
@@ -22,7 +23,8 @@ modeSelector.addEventListener("change", () => {
 });
 
 aiSideSelector.addEventListener("change", () => {
-  aiPlaysAs = aiSideSelector.value;
+  humanPlaysAs = aiSideSelector.value;
+  aiPlaysAs = humanPlaysAs === "X" ? "O" : "X";
   resetGame();
 });
 
@@ -30,15 +32,19 @@ restartBtn.addEventListener("click", resetGame);
 
 // ==== Reset Game ====
 function resetGame() {
-  currentPlayer = "X";
+  currentPlayer = "X"; // Always start with X
   activeBoard = -1;
   gameState = Array(9).fill().map(() => Array(9).fill(null));
   boardWinners = Array(9).fill(null);
   messageBox.style.display = "none";
   drawBoard();
 
-  if ((gameMode !== "2p") && currentPlayer === aiPlaysAs) {
-    setTimeout(aiMove, 300);
+  // Let AI move first if it's assigned X
+  if (gameMode !== "2p") {
+    aiPlaysAs = humanPlaysAs === "X" ? "O" : "X";
+    if (currentPlayer === aiPlaysAs) {
+      setTimeout(aiMove, 300);
+    }
   }
 }
 
@@ -62,7 +68,10 @@ function drawBoard() {
 
       if (isCellPlayable) {
         cell.onclick = () => {
-          if ((gameMode === "2p") || (gameMode !== "2p" && currentPlayer !== aiPlaysAs)) {
+          if (
+            gameMode === "2p" ||
+            (gameMode !== "2p" && currentPlayer === humanPlaysAs)
+          ) {
             makeMove(i, j);
           }
         };
@@ -100,7 +109,8 @@ function drawBoard() {
   if (gameMode === "2p") {
     playerDisplay.textContent = `${currentPlayer}'s Turn`;
   } else {
-    playerDisplay.textContent = currentPlayer === aiPlaysAs ? "AI's Turn" : "Your Turn";
+    playerDisplay.textContent =
+      currentPlayer === humanPlaysAs ? "Your Turn" : "AI's Turn";
   }
 }
 
@@ -123,7 +133,7 @@ function makeMove(i, j) {
 
   drawBoard();
 
-  // ✅ Delay the win/draw message so the last move shows up first
+  // Wait until redraw to show message
   if (gameWinner || isStalemate) {
     setTimeout(() => {
       if (gameWinner) {
@@ -139,7 +149,6 @@ function makeMove(i, j) {
     setTimeout(aiMove, 300);
   }
 }
-
 
 // ==== Helpers ====
 function isBoardFull(cells) {
@@ -167,12 +176,12 @@ function showGameWinner(winner) {
   } else if (gameMode === "2p") {
     message = `${winner} wins!`;
   } else {
-    message = (winner === aiPlaysAs) ? "AI wins!" : "You win!";
+    message = winner === aiPlaysAs ? "AI wins!" : "You win!";
   }
 
   messageBox.textContent = message;
   messageBox.style.display = "block";
-  playerDisplay.textContent = ""; // clear turn display
+  playerDisplay.textContent = "";
 }
 
 // ==== AI Logic ====
@@ -196,10 +205,9 @@ function randomAIMove() {
 function basicMinimaxAIMove() {
   let bestScore = -Infinity;
   let bestMove;
-  let moves = getValidMoves();
-  for (const { i, j } of moves) {
+  for (const { i, j } of getValidMoves()) {
     gameState[i][j] = aiPlaysAs;
-    let score = minimax(gameState, boardWinners, 0, false);
+    const score = minimax(gameState, boardWinners, 0, false);
     gameState[i][j] = null;
     if (score > bestScore) {
       bestScore = score;
@@ -212,10 +220,9 @@ function basicMinimaxAIMove() {
 function smarterMinimaxAIMove() {
   let bestScore = -Infinity;
   let bestMove;
-  let moves = getValidMoves();
-  for (const { i, j } of moves) {
+  for (const { i, j } of getValidMoves()) {
     gameState[i][j] = aiPlaysAs;
-    let score = minimax(gameState, boardWinners, 3, false); // depth limit
+    const score = minimax(gameState, boardWinners, 3, false); // depth limit
     gameState[i][j] = null;
     if (score > bestScore) {
       bestScore = score;
@@ -230,18 +237,20 @@ function minimax(state, winners, depth, isMaximizing) {
   if (overallWinner === aiPlaysAs) return 10 - depth;
   if (overallWinner && overallWinner !== aiPlaysAs) return depth - 10;
 
-  let moves = getValidMoves();
+  const moves = getValidMoves();
   if (moves.length === 0 || depth === 0) return 0;
 
   let bestScore = isMaximizing ? -Infinity : Infinity;
   for (const { i, j } of moves) {
     state[i][j] = isMaximizing ? aiPlaysAs : (aiPlaysAs === "X" ? "O" : "X");
-    let newWinners = [...winners];
+    const newWinners = [...winners];
     const subWin = checkWin(state[i]);
     if (subWin) newWinners[i] = subWin;
-    let score = minimax(state, newWinners, depth - 1, !isMaximizing);
+    const score = minimax(state, newWinners, depth - 1, !isMaximizing);
     state[i][j] = null;
-    bestScore = isMaximizing ? Math.max(score, bestScore) : Math.min(score, bestScore);
+    bestScore = isMaximizing
+      ? Math.max(bestScore, score)
+      : Math.min(bestScore, score);
   }
   return bestScore;
 }
