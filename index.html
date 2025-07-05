@@ -1,33 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- all required links -->
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ultimate Tic Tac Toe</title>
+  
+  <!-- External CSS and JS -->
   <link rel="stylesheet" href="toe.css" />
   <script src="tac.js" defer></script>
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <h1>Ultimate Tic Tac Toe</h1> <!-- title -->
+  <h1>Ultimate Tic Tac Toe</h1>
 
+  <!-- Mode selector -->
   <div style="margin: 1rem; font-size: 1.1rem;">
-    <label for="game-mode" style="margin-right: 0.5rem;">Mode:</label>
-    <select id="game-mode">
-      <option value="2p">2 Player</option>
-      <option value="easy">versus AI (Easy)</option>
-      <option value="hard">versus AI (Hard)</option>
-    </select>
-  </div>
+  <label for="game-mode" style="margin-right: 0.5rem;">Mode:</label>
+  <select id="game-mode">
+    <option value="2p">2 Player</option>
+    <option value="easy">Versus AI (Easy)</option>
+    <option value="medium">versus AI (Medium)</option>
+    <option value="hard">Versus AI (Hard)</option>
+  </select>
 
+  <span id="ai-choice-container" style="display: none; margin-left: 1rem;">
+    <label for="ai-side">You play as:</label>
+    <select id="ai-side">
+      <option value="X">X</option>
+      <option value="O">O</option>
+    </select>
+  </span>
+</div>
+
+
+  <!-- Main game board -->
   <div id="board"></div>
 
-  <div id="game-message" class="game-message-box"></div>
+  <!-- Current player text -->
+  <div id="current-player" style="margin-top: 1rem; font-size: 1.2rem;"></div>
 
+  <!-- Game over message -->
+  <div id="game-message" class="game-message-box" style="display: none;"></div>
+
+  <!-- Restart button -->
   <div style="margin-top: 1rem;">
     <button id="restart-button" style="padding: 6px 12px; font-size: 1rem;">
       RESTART
@@ -36,3 +56,4 @@
 </body>
 
 </html>
+

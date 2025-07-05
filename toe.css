@@ -17,25 +17,15 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* === Game Message === */
-#game-message {
-  font-family: 'Michroma', sans-serif;
-  font-size: 1.5rem;
-  color: #333;
-  margin-top: 1rem;
-  text-align: center;
-}
-
 /* === Game Board === */
 #board {
   display: grid;
   grid-template-columns: repeat(3, auto);
   gap: 0;
-  transform: scale(1); /* Default scale */
+  transform: scale(1);
   transform-origin: top center;
 }
 
-/* Sub-board styles */
 .sub-board {
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -44,22 +34,15 @@ h1 {
   position: relative;
 }
 
-/* Remove borders where needed for cleaner outer border */
-.sub-board:nth-child(-n+3) {
-  border-top: none;
-}
-.sub-board:nth-child(3n+1) {
-  border-left: none;
-}
-.sub-board:nth-child(3n) {
-  border-right: none;
-}
-.sub-board:nth-child(n+7) {
-  border-bottom: none;
-}
+/* Clean outer borders */
+.sub-board:nth-child(-n+3) { border-top: none; }
+.sub-board:nth-child(3n+1) { border-left: none; }
+.sub-board:nth-child(3n) { border-right: none; }
+.sub-board:nth-child(n+7) { border-bottom: none; }
 
 /* === Cells === */
 .cell {
+  font-family: 'Michroma', sans-serif;
   width: 60px;
   height: 60px;
   font-size: 32px;
@@ -73,7 +56,6 @@ h1 {
   border: 1px solid #fdec51;
 }
 
-/* Remove inner double borders */
 .sub-board .cell:nth-child(3n) {
   border-right: none;
 }
@@ -81,7 +63,7 @@ h1 {
   border-bottom: none;
 }
 
-/* === Winner Overlay === */
+/* === Sub-board Winner Overlay === */
 .sub-board-winner {
   position: absolute;
   top: 0;
@@ -98,7 +80,28 @@ h1 {
   z-index: 2;
 }
 
-/* === Buttons and Dropdown === */
+/* === Current Player / Winner Message === */
+#game-message {
+  font-family: 'Michroma', sans-serif;
+  font-size: 1.5rem;
+  color: #333;
+  margin-top: 1rem;
+  text-align: center;
+  display: none;
+}
+
+#game-message.game-message-box {
+  padding: 1rem 2rem;
+  border: 3px solid #fdec51;
+  background-color: #fff9c4;
+  color: #333;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* === Buttons & Dropdown === */
 button {
   font-family: 'Michroma', sans-serif;
   background-color: #fdec51;
@@ -106,6 +109,8 @@ button {
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
 }
 
 button:hover {
@@ -158,18 +163,4 @@ select {
   #game-message {
     font-size: 6vw;
   }
-}
-
-.game-message-box {
-  margin-top: 1.5rem;
-  padding: 1rem 2rem;
-  border: 3px solid #fdec51;
-  background-color: #fff9c4;
-  color: #333;
-  font-size: 1.6rem;
-  font-weight: bold;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
-  display: none;
 }
