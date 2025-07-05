@@ -1,29 +1,34 @@
 // ==== Global Variables ====
 const board = document.getElementById("board");
 const modeSelector = document.getElementById("game-mode");
+const restartBtn = document.getElementById("restart-button");
+const messageBox = document.getElementById("game-message");
 
 let currentPlayer = "X";
 let gameMode = "2p";
-let activeBoard = -1; // -1 means any board is allowed
+let activeBoard = -1;
 let gameState = Array(9).fill().map(() => Array(9).fill(null));
-let boardWinners = Array(9).fill(null); // Track winners of each sub-board
+let boardWinners = Array(9).fill(null);
 
+// ==== Event Listeners ====
 modeSelector.addEventListener("change", () => {
   gameMode = modeSelector.value;
   resetGame();
 });
 
-const restartBtn = document.getElementById("restart-button");
 restartBtn.addEventListener("click", resetGame);
 
+// ==== Reset Game ====
 function resetGame() {
   currentPlayer = "X";
   activeBoard = -1;
   gameState = Array(9).fill().map(() => Array(9).fill(null));
   boardWinners = Array(9).fill(null);
+  messageBox.style.display = "none"; // hide message box
   drawBoard();
 }
 
+// ==== Draw Board ====
 function drawBoard() {
   board.innerHTML = "";
 
@@ -38,18 +43,21 @@ function drawBoard() {
       const value = gameState[i][j];
       cell.textContent = value || "";
 
-      const isCellPlayable = !value &&
-        (activeBoard === -1 || activeBoard === i) &&
-        !boardWinners[i];
+      const isCellPlayable =
+        !value && !boardWinners[i] && (activeBoard === -1 || activeBoard === i);
 
       if (isCellPlayable) {
         cell.onclick = () => {
-          if (gameState[i][j]) return;
-
           gameState[i][j] = currentPlayer;
 
           const winner = checkWin(gameState[i]);
           if (winner) boardWinners[i] = winner;
+
+          // Check if someone won the whole game
+          const gameWinner = checkWin(boardWinners);
+          if (gameWinner) {
+            showGameWinner(gameWinner);
+          }
 
           currentPlayer = currentPlayer === "X" ? "O" : "X";
 
@@ -62,14 +70,14 @@ function drawBoard() {
           drawBoard();
 
           if ((gameMode === "easy" || gameMode === "hard") && currentPlayer === "O") {
-            setTimeout(() => aiMove(), 300);
+            setTimeout(aiMove, 300);
           }
         };
       } else {
         cell.style.cursor = "not-allowed";
       }
 
-      // Border styling
+      // Yellow Borders
       cell.style.border = "1px solid #fdec51";
 
       const isLastColInSubBoard = (j + 1) % 3 === 0;
@@ -87,7 +95,7 @@ function drawBoard() {
       subBoard.appendChild(cell);
     }
 
-    // ✅ Show winner overlay if sub-board is won
+    // Sub-board winner overlay
     if (boardWinners[i]) {
       const overlay = document.createElement("div");
       overlay.className = "sub-board-winner";
@@ -99,6 +107,7 @@ function drawBoard() {
   }
 }
 
+// ==== Helper Functions ====
 function isBoardFull(cells) {
   return cells.every(cell => cell !== null);
 }
@@ -117,6 +126,12 @@ function checkWin(cells) {
   return null;
 }
 
+function showGameWinner(winner) {
+  messageBox.textContent = `${winner} wins!`;
+  messageBox.style.display = "block";
+}
+
+// ==== AI ====
 function aiMove() {
   if (gameMode === "easy") {
     randomAIMove();
@@ -140,13 +155,18 @@ function randomAIMove() {
   const winner = checkWin(gameState[i]);
   if (winner) boardWinners[i] = winner;
 
+  const gameWinner = checkWin(boardWinners);
+  if (gameWinner) {
+    showGameWinner(gameWinner);
+  }
+
   currentPlayer = "X";
   activeBoard = isBoardFull(gameState[j]) || boardWinners[j] ? -1 : j;
   drawBoard();
 }
 
 function minimaxAIMove() {
-  // Placeholder: real minimax to be added later
+  // Placeholder for real minimax
   randomAIMove();
 }
 

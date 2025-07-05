@@ -17,6 +17,15 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* === Game Message === */
+#game-message {
+  font-family: 'Michroma', sans-serif;
+  font-size: 1.5rem;
+  color: #333;
+  margin-top: 1rem;
+  text-align: center;
+}
+
 /* === Game Board === */
 #board {
   display: grid;
@@ -136,7 +145,8 @@ select {
     text-align: center;
   }
 
-  button, select {
+  button,
+  select {
     font-size: 1rem;
     padding: 0.4rem 0.8rem;
   }
@@ -144,4 +154,22 @@ select {
   .sub-board-winner {
     font-size: 100px;
   }
+
+  #game-message {
+    font-size: 6vw;
+  }
+}
+
+.game-message-box {
+  margin-top: 1.5rem;
+  padding: 1rem 2rem;
+  border: 3px solid #fdec51;
+  background-color: #fff9c4;
+  color: #333;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  display: none;
 }
