@@ -179,11 +179,36 @@ function aiMove() {
 }
 
 function randomAIMove() {
-  const moves = getValidMoves();
-  if (moves.length === 0) return;
+  const opponent = aiPlaysAs === "X" ? "O" : "X";
+  let moves = getValidMoves();
+
+  // 1. Check if AI can win any sub-board
+  for (const { i, j } of moves) {
+    gameState[i][j] = aiPlaysAs;
+    if (checkWin(gameState[i]) === aiPlaysAs) {
+      gameState[i][j] = null;
+      makeMove(i, j);
+      return;
+    }
+    gameState[i][j] = null;
+  }
+
+  // 2. Check if AI needs to block opponent from winning sub-board
+  for (const { i, j } of moves) {
+    gameState[i][j] = opponent;
+    if (checkWin(gameState[i]) === opponent) {
+      gameState[i][j] = null;
+      makeMove(i, j);
+      return;
+    }
+    gameState[i][j] = null;
+  }
+
+  // 3. Else play random valid move
   const { i, j } = moves[Math.floor(Math.random() * moves.length)];
   makeMove(i, j);
 }
+
 
 function basicMinimaxAIMove() {
   let bestScore = -Infinity;

@@ -85,7 +85,8 @@ h1 {
   font-family: 'Michroma', sans-serif;
   font-size: 1.5rem;
   color: #333;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   text-align: center;
   display: none;
 }
