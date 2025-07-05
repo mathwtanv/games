@@ -19,7 +19,7 @@
   <h1>Ultimate Tic Tac Toe</h1>
 
   <!-- Mode selector -->
-  <div style="margin: 1rem; font-size: 1.1rem;">
+<div class="mode-container">
   <label for="game-mode" style="margin-right: 0.5rem;">Mode:</label>
   <select id="game-mode">
     <option value="2p">2 Player</option>
@@ -28,14 +28,15 @@
     <option value="hard">Hard AI</option>
   </select>
 
-  <span id="ai-choice-container" style="display: none; margin-left: 1rem;">
-    <label for="ai-side">You play as:</label>
+  <span id="ai-choice-container">
+    <label for="ai-side" style="margin-left: 1rem;">You play as:</label>
     <select id="ai-side">
       <option value="X">X</option>
       <option value="O">O</option>
     </select>
   </span>
 </div>
+
 
 
   <!-- Main game board -->

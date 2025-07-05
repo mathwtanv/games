@@ -127,6 +127,15 @@ select {
   border: 1px solid #aaa;
 }
 
+.mode-container {
+  margin: 1rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 /* === Responsive Layout for Mobile === */
 @media (max-width: 768px) {
   #board {
@@ -164,4 +173,45 @@ select {
   #game-message {
     font-size: 6vw;
   }
+
+
+  h1 {
+    font-size: 7vw;
+    text-align: center;
+    margin-bottom: 0.2rem; /* reduced space below title */
+  }
+
+  body > div:first-of-type {
+    margin-top: 0.2rem;   /* reduce gap between h1 and mode selector */
+    margin-bottom: 0.5rem;
+  }
+
+  #game-mode,
+  #ai-choice-container {
+    margin-top: 0;
+    margin-bottom: 0.2rem;
+  }
+
+  #ai-choice-container {
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  .mode-container {
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  font-size: 1rem;
+}
+
+.mode-container label {
+  margin: 0;
+}
+
+#ai-choice-container {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
 }
