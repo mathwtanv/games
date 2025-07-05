@@ -94,3 +94,26 @@ select {
   border-radius: 4px;
   border: 1px solid #aaa; */
 }
+
+@media (max-width: 600px) {
+  .cell {
+    width: 10vw;
+    height: 10vw;
+    font-size: 6vw;
+  }
+
+  #board {
+    transform: scale(1.1); /* Slightly larger */
+    margin-top: 1rem;
+  }
+
+  h1 {
+    font-size: 7vw;
+    text-align: center;
+  }
+
+  button, select {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
