@@ -1,3 +1,4 @@
+/* === Base Styles === */
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
@@ -8,6 +9,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
 }
 
 h1 {
@@ -15,40 +17,39 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* === Game Board === */
 #board {
   display: grid;
   grid-template-columns: repeat(3, auto);
-  gap: 0; /* No gap between sub-boards */
+  gap: 0;
+  transform: scale(1); /* Default scale */
+  transform-origin: top center;
 }
 
+/* Sub-board styles */
 .sub-board {
   display: grid;
   grid-template-columns: repeat(3, auto);
   border: 4px solid #8ed6ea;
   box-sizing: border-box;
+  position: relative;
 }
 
-/* Remove top border from top row sub-boards */
+/* Remove borders where needed for cleaner outer border */
 .sub-board:nth-child(-n+3) {
   border-top: none;
 }
-
-/* Remove left border from left column sub-boards */
 .sub-board:nth-child(3n+1) {
   border-left: none;
 }
-
-/* Remove right border from right column */
 .sub-board:nth-child(3n) {
   border-right: none;
 }
-
-/* Remove bottom border from bottom row sub-boards */
 .sub-board:nth-child(n+7) {
   border-bottom: none;
 }
 
-
+/* === Cells === */
 .cell {
   width: 60px;
   height: 60px;
@@ -60,10 +61,10 @@ h1 {
   cursor: pointer;
   user-select: none;
   box-sizing: border-box;
+  border: 1px solid #fdec51;
 }
 
-
-/* Remove double borders on inner cells */
+/* Remove inner double borders */
 .sub-board .cell:nth-child(3n) {
   border-right: none;
 }
@@ -71,57 +72,7 @@ h1 {
   border-bottom: none;
 }
 
-button {
-  font-family: 'Michroma', sans-serif;
-  background-color: #fdec51;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-button:hover {
-  font-family: 'Michroma', sans-serif;
-  background-color: #fbe521;
-}
-
-select {
-  font-family: 'Montserrat', sans-serif;
-  background-color: #fdec51; 
-  /* color: #fffbe3;               
-  padding: 4px 8px;
-  font-size: 1rem;
-  border-radius: 4px;
-  border: 1px solid #aaa; */
-}
-
-@media (max-width: 600px) {
-  .cell {
-    width: 10vw;
-    height: 10vw;
-    font-size: 6vw;
-  }
-
-  #board {
-    transform: scale(1.1); /* Slightly larger */
-    margin-top: 1rem;
-  }
-
-  h1 {
-    font-size: 7vw;
-    text-align: center;
-  }
-
-  button, select {
-    font-size: 1rem;
-    padding: 0.4rem 0.8rem;
-  }
-}
-
-.sub-board {
-  position: relative;
-}
-
+/* === Winner Overlay === */
 .sub-board-winner {
   position: absolute;
   top: 0;
@@ -136,4 +87,61 @@ select {
   font-weight: bold;
   pointer-events: none;
   z-index: 2;
+}
+
+/* === Buttons and Dropdown === */
+button {
+  font-family: 'Michroma', sans-serif;
+  background-color: #fdec51;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #fbe521;
+}
+
+select {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #fdec51;
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+}
+
+/* === Responsive Layout for Mobile === */
+@media (max-width: 768px) {
+  #board {
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 600px) {
+  .cell {
+    width: 12vw;
+    height: 12vw;
+    font-size: 6vw;
+  }
+
+  #board {
+    transform: none;
+    margin-top: 1rem;
+  }
+
+  h1 {
+    font-size: 7vw;
+    text-align: center;
+  }
+
+  button, select {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .sub-board-winner {
+    font-size: 100px;
+  }
 }
