@@ -1,0 +1,96 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fffbe3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+h1 {
+  font-family: 'Michroma', sans-serif;
+  margin-bottom: 20px;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0; /* No gap between sub-boards */
+}
+
+.sub-board {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  border: 4px solid #8ed6ea;
+  box-sizing: border-box;
+}
+
+/* Remove top border from top row sub-boards */
+.sub-board:nth-child(-n+3) {
+  border-top: none;
+}
+
+/* Remove left border from left column sub-boards */
+.sub-board:nth-child(3n+1) {
+  border-left: none;
+}
+
+/* Remove right border from right column */
+.sub-board:nth-child(3n) {
+  border-right: none;
+}
+
+/* Remove bottom border from bottom row sub-boards */
+.sub-board:nth-child(n+7) {
+  border-bottom: none;
+}
+
+
+.cell {
+  width: 60px;
+  height: 60px;
+  font-size: 32px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+
+/* Remove double borders on inner cells */
+.sub-board .cell:nth-child(3n) {
+  border-right: none;
+}
+.sub-board .cell:nth-child(n+7) {
+  border-bottom: none;
+}
+
+button {
+  font-family: 'Michroma', sans-serif;
+  background-color: #fdec51;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  font-family: 'Michroma', sans-serif;
+  background-color: #fbe521;
+}
+
+select {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #fdec51; 
+  /* color: #fffbe3;               
+  padding: 4px 8px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #aaa; */
+}

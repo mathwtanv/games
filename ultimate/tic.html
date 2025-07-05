@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ultimate Tic Tac Toe</title>
+  <link rel="stylesheet" href="toe.css" />
+  <script src="tac.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <h1>Ultimate Tic Tac Toe</h1>
+  <div style="margin: 1rem; font-size: 1.1rem;">
+    <label for="game-mode" style="margin-right: 0.5rem;">Mode:</label>
+    <select id="game-mode">
+      <option value="2p">2 Player</option>
+      <option value="easy">versus AI (Easy)</option>
+      <option value="hard">versus AI (Hard)</option>
+    </select>
+  </div>
+
+  <div id="board"></div>
+
+  <div style="margin-top: 1rem;">
+    <button id="restart-button" style="padding: 6px 12px; font-size: 1rem;">
+      RESTART
+    </button>
+  </div>
+</body>
+
+</html>
