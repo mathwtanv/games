@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ultimate Tic Tac Toe</title>
+  <title>Ultimate Tic-Tac-Toe</title>
   
   <!-- External CSS and JS -->
   <link rel="stylesheet" href="toe.css" />
@@ -16,11 +16,29 @@
 </head>
 
 <body>
-  <h1>Ultimate Tic Tac Toe</h1>
+  <h1>Ultimate Tic-Tac-Toe</h1>
 
-  <!-- Mode selector -->
-<div class="mode-container">
-  <label for="game-mode" style="margin-right: 0.5rem;">Mode:</label>
+ <!-- Mode selector + AI choice + Info icon -->
+<div class="mode-container" style="display: flex; align-items: center; gap: 0.5rem;">
+
+<span id="info-icon" title="Game Rules" style="
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  background-color: black;
+  color: #fdec51; 
+  border: none;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  font-family: 'Michroma', sans-serif;
+  font-weight: bold;
+">i</span>
+
+  <label for="game-mode">Mode:</label>
   <select id="game-mode">
     <option value="2p">2 Player</option>
     <option value="easy">Easy AI</option>
@@ -28,15 +46,41 @@
     <option value="hard">Hard AI</option>
   </select>
 
-  <span id="ai-choice-container">
-    <label for="ai-side" style="margin-left: 1rem;">You play as:</label>
-    <select id="ai-side">
-      <option value="X">X</option>
-      <option value="O">O</option>
-    </select>
-  </span>
+  <span id="ai-choice-container" style="display: none;">
+  <label for="ai-side" style="margin-left: 1rem;">You play as:</label>
+  <select id="ai-side">
+    <option value="X">X</option>
+    <option value="O">O</option>
+  </select>
+</span>
+
 </div>
 
+
+<!-- Rules Modal -->
+<div id="rules-modal" style="display: none;">
+  <div id="rules-content">
+    <span id="close-rules">&times;</span>
+    <h2>USER MANUAL</h2>
+    <p>
+      Welcome to Ultimate Tic-Tac-Toe. Just like in 'regular' Tic-Tac-Toe, the aim is for you to make three in a row, taking turns with an opponent (human or AI). 
+      However, in this version, you need to win a 3x3 to even place an X/O!
+      <br><br>
+      The game starts with an empty board, and placing in any of the nine cells of an individual 'subgame'
+      <img src="images/first_press.png" alt="first placement" style="display: block; margin: 1rem auto; max-width: 100%; height: auto;" /> moves the whole game to that block:
+      <img src="images/respective.png" alt="subgame" style="display: block; margin: 1rem auto; max-width: 100%; height: auto;" />
+      This ensures that the next player plays in the new game, before they play their turn and move the game again. 
+      <img src="images/next_turn.png" alt="next placement" style="display: block; margin: 1rem auto; max-width: 100%; height: auto;" /> 
+      As mentioned before, making 3 in a row wins you a subgame, and automatically turns that cell into a big X/O: 
+      <img src="images/first_win.png" alt="first win" style="display: block; margin: 1rem auto; max-width: 100%; height: auto;" />
+      If someone places in a cell that would take the next player to a game that has already been won, they are free to play anywhere 
+      (that isn't occupied) on the board. The game is completed once someone manages to not only win many subgames, but strategically choose ones that are three in a row.
+      <img src="images/endgame.png" alt="end game" style="display: block; margin: 1rem auto; max-width: 100%; height: auto;" />
+      Here, clearly <img src="images/Owin.png" alt="O wins" style="display: block; margin: 1rem auto; max-width: 100%; height: auto;" />
+      Good luck :)
+    </p>
+  </div>
+</div>
 
 
   <!-- Main game board -->

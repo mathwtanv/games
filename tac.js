@@ -320,4 +320,21 @@ function getValidMoves() {
   return moves;
 }
 
+
+document.getElementById("info-icon").addEventListener("click", () => {
+  document.getElementById("rules-modal").style.display = "flex";
+});
+
+document.getElementById("close-rules").addEventListener("click", () => {
+  document.getElementById("rules-modal").style.display = "none";
+});
+
+window.addEventListener("click", (e) => {
+  const modal = document.getElementById("rules-modal");
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
+
 drawBoard();

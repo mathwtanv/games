@@ -1,3 +1,8 @@
+/* === Global Defaults === */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* === Base Styles === */
 body {
   font-family: 'Montserrat', sans-serif;
@@ -30,7 +35,6 @@ h1 {
   display: grid;
   grid-template-columns: repeat(3, auto);
   border: 4px solid #8ed6ea;
-  box-sizing: border-box;
   position: relative;
 }
 
@@ -52,8 +56,8 @@ h1 {
   align-items: center;
   cursor: pointer;
   user-select: none;
-  box-sizing: border-box;
   border: 1px solid #fdec51;
+  transition: opacity 0.3s ease;
 }
 
 .sub-board .cell:nth-child(3n) {
@@ -80,7 +84,7 @@ h1 {
   z-index: 2;
 }
 
-/* === Current Player / Winner Message === */
+/* === Game Status === */
 #game-message {
   font-family: 'Michroma', sans-serif;
   font-size: 1.5rem;
@@ -89,20 +93,20 @@ h1 {
   margin-bottom: 1rem;
   text-align: center;
   display: none;
+  transition: opacity 0.3s ease;
 }
 
 #game-message.game-message-box {
   padding: 1rem 2rem;
   border: 3px solid #fdec51;
   background-color: #fff9c4;
-  color: #333;
   font-size: 1.6rem;
   font-weight: bold;
   border-radius: 10px;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* === Buttons & Dropdown === */
+/* === Buttons & Dropdowns === */
 button {
   font-family: 'Michroma', sans-serif;
   background-color: #fdec51;
@@ -127,6 +131,7 @@ select {
   border: 1px solid #aaa;
 }
 
+/* === Mode Row === */
 .mode-container {
   margin: 1rem;
   font-size: 1.1rem;
@@ -136,53 +141,87 @@ select {
   gap: 0.5rem;
 }
 
+/* === AI Choice === */
+#ai-choice-container {
+  display: none; /* Controlled by JS */
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* === Info Icon & Rules Modal === */
+#info-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #fdec51;
+  user-select: none;
+}
+
+#rules-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#rules-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  position: relative;
+  font-size: 1rem;
+  color: black;
+
+  max-height: 80vh;       /* Limit height to 80% of viewport */
+  overflow-y: auto;       /* Enable vertical scrolling */
+}
+
+
+#close-rules {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.8rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
 /* === Responsive Layout for Mobile === */
 @media (max-width: 768px) {
   #board {
-    transform: scale(0.8);
+    transform: scale(0.95);
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
+  #board {
+    transform: scale(0.9);
+  }
+
   .cell {
     width: 12vw;
     height: 12vw;
     font-size: 6vw;
   }
 
-  #board {
-    transform: none;
-    margin-top: 1rem;
-  }
-
-  h1 {
-    font-size: 7vw;
-    text-align: center;
-  }
-
-  button,
-  select {
-    font-size: 1rem;
-    padding: 0.4rem 0.8rem;
-  }
-
   .sub-board-winner {
     font-size: 100px;
   }
 
-  #game-message {
-    font-size: 6vw;
-  }
-
-
   h1 {
     font-size: 7vw;
     text-align: center;
-    margin-bottom: 0.2rem; /* reduced space below title */
+    margin-bottom: 0.2rem;
   }
 
   body > div:first-of-type {
-    margin-top: 0.2rem;   /* reduce gap between h1 and mode selector */
+    margin-top: 0.2rem;
     margin-bottom: 0.5rem;
   }
 
@@ -192,26 +231,7 @@ select {
     margin-bottom: 0.2rem;
   }
 
-  #ai-choice-container {
-    display: block;
-    margin-top: 0.2rem;
+  #game-message {
+    font-size: 6vw;
   }
-
-  .mode-container {
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  font-size: 1rem;
-}
-
-.mode-container label {
-  margin: 0;
-}
-
-#ai-choice-container {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
 }
