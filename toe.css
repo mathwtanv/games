@@ -14,7 +14,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
 }
 
 h1 {
@@ -129,6 +129,7 @@ select {
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
   border: 1px solid #aaa;
+  min-width: 80px; /* Prevent dropdowns from shrinking too much */
 }
 
 /* === Mode Row === */
@@ -139,6 +140,22 @@ select {
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+/* FORCE horizontal layout on small screens */
+@media (max-width: 480px) {
+  .mode-container {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  #ai-choice-container,
+  #game-mode,
+  #info-icon {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
 }
 
 /* === AI Choice === */
@@ -154,6 +171,8 @@ select {
   font-size: 1.2rem;
   color: #fdec51;
   user-select: none;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 #rules-modal {
@@ -178,11 +197,9 @@ select {
   position: relative;
   font-size: 1rem;
   color: black;
-
-  max-height: 80vh;       /* Limit height to 80% of viewport */
-  overflow-y: auto;       /* Enable vertical scrolling */
+  max-height: 80vh;
+  overflow-y: auto;
 }
-
 
 #close-rules {
   position: absolute;
@@ -225,17 +242,12 @@ select {
     margin-bottom: 0.5rem;
   }
 
-  #game-mode,
-  #ai-choice-container {
-    margin-top: 0;
-    margin-bottom: 0.2rem;
-  }
-
   #game-message {
     font-size: 6vw;
   }
 }
 
+/* === Utility Classes === */
 .underline-italic {
   text-decoration: underline;
   font-style: italic;
