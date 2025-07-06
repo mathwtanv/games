@@ -10,6 +10,7 @@ const aiChoiceContainer = document.getElementById("ai-choice-container");
 let currentPlayer = "X";
 let gameMode = "2p";
 let activeBoard = -1;
+let gameOver = false;
 let gameState = Array(9).fill().map(() => Array(9).fill(null));
 let boardWinners = Array(9).fill(null);
 let humanPlaysAs = "X";
@@ -34,6 +35,7 @@ restartBtn.addEventListener("click", resetGame);
 function resetGame() {
   currentPlayer = "X";
   activeBoard = -1;
+  gameOver = false;
   gameState = Array(9).fill().map(() => Array(9).fill(null));
   boardWinners = Array(9).fill(null);
   messageBox.style.display = "none";
@@ -51,7 +53,7 @@ function drawBoard() {
   for (let i = 0; i < 9; i++) {
     const subBoard = document.createElement("div");
     subBoard.className = "sub-board";
-    subBoard.style.opacity = activeBoard === -1 || activeBoard === i ? "3" : "0.35";
+    subBoard.style.opacity = activeBoard === -1 || activeBoard === i ? "1" : "0.35";
 
     for (let j = 0; j < 9; j++) {
       const cell = document.createElement("div");
@@ -60,7 +62,10 @@ function drawBoard() {
       cell.textContent = value || "";
 
       const isCellPlayable =
-        !value && !boardWinners[i] && (activeBoard === -1 || activeBoard === i);
+        !value &&
+        !boardWinners[i] &&
+        (activeBoard === -1 || activeBoard === i) &&
+        !gameOver;
 
       if (isCellPlayable) {
         cell.onclick = () => {
@@ -87,16 +92,15 @@ function drawBoard() {
     }
 
     if (boardWinners[i]) {
-  const overlay = document.createElement("div");
-  overlay.className = "sub-board-winner";
-  overlay.textContent = boardWinners[i];
-  subBoard.appendChild(overlay);
+      const overlay = document.createElement("div");
+      overlay.className = "sub-board-winner";
+      overlay.textContent = boardWinners[i];
+      subBoard.appendChild(overlay);
 
-  // Dim all small Xs and Os if sub-board is won
-  for (let cellEl of subBoard.querySelectorAll(".cell")) {
-    cellEl.style.opacity = "0.3";
-  }
-}
+      for (let cellEl of subBoard.querySelectorAll(".cell")) {
+        cellEl.style.opacity = "0.3";
+      }
+    }
 
     board.appendChild(subBoard);
   }
@@ -110,7 +114,7 @@ function drawBoard() {
 
 // ==== Game Logic ====
 function makeMove(i, j) {
-  if (gameState[i][j]) return;
+  if (gameOver || gameState[i][j]) return;
 
   gameState[i][j] = currentPlayer;
 
@@ -128,6 +132,7 @@ function makeMove(i, j) {
   drawBoard();
 
   if (gameWinner || isStalemate) {
+    gameOver = true;
     setTimeout(() => showGameWinner(gameWinner || "draw"), 0);
     return;
   }
@@ -172,6 +177,8 @@ function showGameWinner(winner) {
 
 // ==== AI Logic ====
 function aiMove() {
+  if (gameOver) return;
+
   if (gameMode === "easy") {
     randomAIMove();
   } else if (gameMode === "medium") {
@@ -272,9 +279,6 @@ function smarterMinimaxAIMove() {
   }, 0);
 }
 
-
-
-
 function minimax(state, winners, depth, isMax) {
   const overallWinner = checkWin(winners);
   if (overallWinner === aiPlaysAs) return 100 - depth;
@@ -320,7 +324,7 @@ function getValidMoves() {
   return moves;
 }
 
-
+// ==== Rules Modal ====
 document.getElementById("info-icon").addEventListener("click", () => {
   document.getElementById("rules-modal").style.display = "flex";
 });
@@ -336,5 +340,5 @@ window.addEventListener("click", (e) => {
   }
 });
 
-
+// ==== Initialize ====
 drawBoard();
